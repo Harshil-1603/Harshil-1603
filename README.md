@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="./assets/hero.svg" width="100%" alt="Harshil Agrawal — software, systems, open source. Build it. Understand it. Make it better." />
+  <picture>
+    <source media="(prefers-reduced-motion: reduce)" srcset="./assets/hero.svg?v=2" />
+    <img src="./assets/hero.gif" width="100%" alt="Harshil Agrawal — software, systems, open source. Build it. Understand it. Make it better." />
+  </picture>
 </p>
 
 <p align="center">
