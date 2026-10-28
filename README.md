@@ -8,9 +8,42 @@
 </p>
 
 <p align="center">
-  <a href="#selected-work">Selected work</a> &nbsp;↗&nbsp;
-  <a href="#open-source">Open source</a> &nbsp;↗&nbsp;
+  <a href="#tech-stack">Tech stack</a> &nbsp;·&nbsp;
+  <a href="#github-activity">GitHub stats</a> &nbsp;·&nbsp;
+  <a href="#selected-work">Projects</a> &nbsp;·&nbsp;
+  <a href="#open-source">Open source</a> &nbsp;·&nbsp;
   <a href="https://github.com/Harshil-1603?tab=repositories">All repositories</a>
+</p>
+
+## Tech stack
+
+<p align="center">
+  <strong>Languages</strong><br /><br />
+  <img src="https://skillicons.dev/icons?i=cpp,py,go,ts,js&amp;theme=dark" alt="C++, Python, Go, TypeScript, JavaScript" height="48" />
+</p>
+<p align="center">
+  <strong>Web &amp; data</strong><br /><br />
+  <img src="https://skillicons.dev/icons?i=react,nextjs,postgres,prisma&amp;theme=dark" alt="React, Next.js, PostgreSQL, Prisma" height="48" />
+</p>
+<p align="center">
+  <strong>Daily drivers</strong><br /><br />
+  <img src="https://skillicons.dev/icons?i=git,linux,docker&amp;theme=dark" alt="Git, Linux, Docker" height="48" />
+</p>
+
+## GitHub activity
+
+<p align="center">
+  <a href="https://github.com/Harshil-1603?tab=repositories">
+    <img src="https://github-stats-extended.vercel.app/api?username=Harshil-1603&amp;bg_color=0d1117&amp;title_color=c9f76f&amp;text_color=f0f6fc&amp;icon_color=b7a7ff&amp;border_color=30363d&amp;border_radius=16&amp;show_icons=true&amp;rank_icon=github&amp;show=prs_merged&amp;hide=contribs&amp;custom_title=GitHub+by+the+numbers&amp;card_width=420&amp;disable_animations=true" width="420" align="top" alt="GitHub stats: stars, commits, pull requests, merged pull requests, and issues" />
+  </a>
+  <a href="https://github.com/Harshil-1603?tab=repositories">
+    <img src="https://github-stats-extended.vercel.app/api/top-langs/?username=Harshil-1603&amp;bg_color=0d1117&amp;title_color=c9f76f&amp;text_color=f0f6fc&amp;icon_color=b7a7ff&amp;border_color=30363d&amp;border_radius=16&amp;layout=compact&amp;langs_count=8&amp;card_width=420&amp;custom_title=Most+used+languages&amp;disable_animations=true" width="420" align="top" alt="Most used languages across my repositories" />
+  </a>
+</p>
+<p align="center">
+  <a href="https://github.com/Harshil-1603?tab=overview">
+    <img src="https://streak-stats.demolab.com/?user=Harshil-1603&amp;background=0D1117&amp;ring=C9F76F&amp;fire=B7A7FF&amp;currStreakNum=F0F6FC&amp;sideNums=F0F6FC&amp;currStreakLabel=C9F76F&amp;sideLabels=9BA6B2&amp;dates=9BA6B2&amp;border=30363D&amp;border_radius=16&amp;disable_animations=true" width="540" alt="GitHub contributions, current streak, and longest streak" />
+  </a>
 </p>
 
 ## Selected work
@@ -45,12 +78,6 @@ I like the work behind a good fix: reproduce the edge case, understand the cause
 | **[freeCodeCamp](https://github.com/freeCodeCamp/freeCodeCamp/pull/70646)** · Curriculum | Clarify the Python RPG character lab instructions. |
 
 [Browse my merged contributions ↗](https://github.com/search?q=author%3AHarshil-1603+is%3Apr+is%3Amerged+-user%3AHarshil-1603&type=pullrequests)
-
-## Tools I reach for
-
-**Languages** &nbsp; `C++` · `Python` · `Go` · `TypeScript` · `JavaScript`<br />
-**Web & data** &nbsp; `React` · `Next.js` · `PostgreSQL` · `Prisma`<br />
-**Workflow** &nbsp; `Git` · `Linux` · `Docker` · `Regression tests`
 
 ---
 

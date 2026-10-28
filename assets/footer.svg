@@ -1,7 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="100" viewBox="0 0 1280 100" fill="none" role="img" aria-labelledby="title">
   <title id="title">From a useful idea to a working implementation.</title>
+  <style>
+    .cursor { animation: blink 1.2s steps(2, end) infinite; }
+    .prompt { animation: nudge 2.5s ease-in-out infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+    @media (prefers-reduced-motion: reduce) { .cursor, .prompt { animation: none; } }
+  </style>
   <rect x="1" y="1" width="1278" height="98" rx="16" fill="#0D1117" stroke="#30363D" stroke-width="2"/>
-  <path d="M38 41L48 50L38 59" stroke="#C9F76F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path class="prompt" d="M38 41L48 50L38 59" stroke="#C9F76F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
   <text x="70" y="57" fill="#F0F6FC" font-family="DejaVu Sans Mono, monospace" font-size="20">From a useful idea to a working implementation.</text>
-  <text x="1238" y="56" text-anchor="end" fill="#B7A7FF" font-family="DejaVu Sans Mono, monospace" font-size="17">git push curiosity</text>
+  <text x="1238" y="56" text-anchor="end" fill="#B7A7FF" font-family="DejaVu Sans Mono, monospace" font-size="17">git push curiosity<tspan class="cursor">_</tspan></text>
 </svg>

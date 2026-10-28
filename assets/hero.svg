@@ -1,7 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="460" viewBox="0 0 1280 460" fill="none" role="img" aria-labelledby="title desc">
   <title id="title">Harshil Agrawal — software, systems, open source</title>
-  <desc id="desc">A charcoal banner with large white lettering, lime accents, and an abstract branching circuit. Build it. Understand it. Make it better.</desc>
+  <desc id="desc">A charcoal banner with large white lettering, lime accents, and an animated branching circuit. Build it. Understand it. Make it better.</desc>
+  <style>
+    .float { animation: float 6s ease-in-out infinite; }
+    .signal { stroke-dasharray: 12 170; animation: flow 5s linear infinite; }
+    .halo { transform-box: fill-box; transform-origin: center; animation: pulse 3s ease-out infinite; }
+    .cursor { animation: blink 1.2s steps(2, end) infinite; }
+    .reveal { animation: type 12s steps(46, end) infinite; }
+    .glow { animation: breathe 6s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+    @keyframes flow { to { stroke-dashoffset: -364; } }
+    @keyframes pulse { 0% { transform: scale(.8); opacity: .7; } 85%, 100% { transform: scale(1.8); opacity: 0; } }
+    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes type { 0%, 5% { width: 0; } 38%, 88%, 100% { width: 740px; } }
+    @keyframes breathe { 0%, 100% { opacity: .35; } 50% { opacity: .8; } }
+    @media (prefers-reduced-motion: reduce) {
+      .float, .signal, .halo, .cursor, .reveal, .glow { animation: none; }
+    }
+  </style>
   <defs>
+    <radialGradient id="glow">
+      <stop stop-color="#B7A7FF" stop-opacity=".17"/>
+      <stop offset="1" stop-color="#B7A7FF" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="typing"><rect class="reveal" x="60" y="312" width="740" height="44"/></clipPath>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
       <path d="M40 0H0V40" stroke="#F0F6FC" stroke-opacity=".035"/>
     </pattern>
@@ -12,22 +34,28 @@
   </defs>
   <rect x="1" y="1" width="1278" height="458" rx="22" fill="#0D1117" stroke="#30363D" stroke-width="2"/>
   <rect x="2" y="2" width="1276" height="456" rx="21" fill="url(#grid)"/>
+  <ellipse class="glow" cx="1030" cy="230" rx="245" ry="210" fill="url(#glow)"/>
   <path d="M60 65H94" stroke="#C9F76F" stroke-width="3"/>
   <text x="108" y="70" fill="#C9F76F" font-family="DejaVu Sans Mono, monospace" font-size="15" letter-spacing="2">SOFTWARE / SYSTEMS / OPEN SOURCE</text>
   <text x="60" y="187" fill="#F0F6FC" font-family="DejaVu Sans, Arial, sans-serif" font-size="100" font-weight="800" letter-spacing="-5">HARSHIL</text>
   <text x="60" y="292" fill="#F0F6FC" font-family="DejaVu Sans, Arial, sans-serif" font-size="100" font-weight="800" letter-spacing="-5">AGRAWAL<tspan fill="#C9F76F">.</tspan></text>
-  <text x="64" y="343" fill="#D1D9E0" font-family="DejaVu Sans, Arial, sans-serif" font-size="25">Build it. Understand it. Make it better.</text>
+  <text clip-path="url(#typing)" x="64" y="343" fill="#D1D9E0" font-family="DejaVu Sans, Arial, sans-serif" font-size="25">Build it. Understand it. Make it better.</text>
   <path d="M64 391H1216" stroke="#30363D"/>
   <text x="64" y="425" fill="#9BA6B2" font-family="DejaVu Sans Mono, monospace" font-size="15" letter-spacing="1">C++ · PYTHON · GO · TYPESCRIPT</text>
   <text x="1216" y="425" text-anchor="end" fill="#9BA6B2" font-family="DejaVu Sans Mono, monospace" font-size="15">@Harshil-1603</text>
+  <g class="float">
   <rect x="887" y="104" width="285" height="250" rx="28" fill="url(#fade)" stroke="#30363D"/>
   <path d="M919 229H953Q972 229 972 210V161M972 210Q972 229 991 229H1049Q1070 229 1070 250V299M1070 250Q1070 229 1091 229H1140" stroke="#687480" stroke-width="2"/>
+  <path class="signal" d="M919 229H953Q972 229 991 229H1049Q1070 229 1091 229H1140" stroke="#C9F76F" stroke-width="3"/>
   <path d="M972 161V201M1070 260V299" stroke="#B7A7FF" stroke-width="3"/>
   <circle cx="972" cy="156" r="9" fill="#0D1117" stroke="#B7A7FF" stroke-width="3"/>
   <circle cx="1070" cy="303" r="9" fill="#0D1117" stroke="#B7A7FF" stroke-width="3"/>
+  <circle class="halo" cx="972" cy="156" r="15" stroke="#B7A7FF" stroke-width="2"/>
+  <circle class="halo" cx="1070" cy="303" r="15" stroke="#B7A7FF" stroke-width="2" style="animation-delay: 1.5s"/>
   <path d="M1008 206L1032 229L1008 252M1052 206L1076 229L1052 252" stroke="#C9F76F" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
   <circle cx="917" cy="229" r="5" fill="#C9F76F"/>
   <circle cx="1140" cy="229" r="5" fill="#C9F76F"/>
   <text x="1030" y="132" text-anchor="middle" fill="#9BA6B2" font-family="DejaVu Sans Mono, monospace" font-size="11" letter-spacing="2">ALWAYS CURIOUS</text>
-  <text x="1030" y="337" text-anchor="middle" fill="#9BA6B2" font-family="DejaVu Sans Mono, monospace" font-size="11" letter-spacing="2">KEEP BUILDING_</text>
+  <text x="1030" y="337" text-anchor="middle" fill="#9BA6B2" font-family="DejaVu Sans Mono, monospace" font-size="11" letter-spacing="2">KEEP BUILDING<tspan class="cursor" fill="#C9F76F">_</tspan></text>
+  </g>
 </svg>
