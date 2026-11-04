@@ -49,6 +49,12 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/Harshil-1603?tab=overview">
+    <img src="https://ghchart.rshah.org/39d353/Harshil-1603" width="100%" alt="GitHub contribution calendar: daily activity shown as green squares" />
+  </a>
+</p>
+
 ## Selected work
 
 <table>
