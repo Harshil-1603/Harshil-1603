@@ -47,18 +47,18 @@
 
 <p align="center">
   <a href="https://github.com/Harshil-1603?tab=overview">
-    <img src="./assets/contribution-dashboard.svg" width="100%" alt="GitHub activity dashboard with a 12-month contribution heatmap, pull requests created, merged and open, plus current and longest streaks" />
+    <img src="./assets/contribution-dashboard.svg" width="100%" alt="GitHub overview: contributions, commits, pull requests, merged PRs, issues, public repositories, received stars, streaks, and daily contribution calendar" />
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/search?q=author%3AHarshil-1603+is%3Apr&type=pullrequests">All pull requests</a> &nbsp;·&nbsp;
-  <a href="https://github.com/search?q=author%3AHarshil-1603+is%3Apr+is%3Amerged&type=pullrequests">Merged PRs</a> &nbsp;·&nbsp;
-  <a href="https://github.com/search?q=author%3AHarshil-1603+is%3Apr+is%3Aopen&type=pullrequests">Open PRs</a> &nbsp;·&nbsp;
-  <a href="https://github.com/Harshil-1603?tab=overview">Official contribution calendar</a>
+  <sub>GitHub API data · <a href="./.github/workflows/contribution-dashboard.yml">automatic refresh every six hours</a> · <a href="https://github.com/Harshil-1603?tab=overview">official contribution history</a></sub>
 </p>
 
-<sub>Dashboard generated from GitHub's GraphQL and Search APIs by <a href="./.github/workflows/contribution-dashboard.yml">GitHub Actions</a> every six hours. Contribution history and streaks use UTC dates. PR totals reflect repositories visible to the workflow token; private activity may be omitted unless that token can read it. The longest streak covers the displayed 12 months. Timestamp inside the graphic indicates its last successful refresh.</sub>
+<details>
+  <summary>How these statistics are counted</summary>
+  <p>PRs, merged PRs, open PRs, and issues come from GitHub search for the account's authorship; public repositories and received stars come from the account's public repository list. Contributions and counted commits use GitHub's official rolling-year contribution calendar; streaks are calculated from its daily totals (UTC). Private contributions depend on the permissions of the workflow token. These figures refresh every six hours, not on every profile visit.</p>
+</details>
 
 ## Featured projects
 
