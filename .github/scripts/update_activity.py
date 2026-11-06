@@ -18,7 +18,12 @@ API = "https://api.github.com"
 GRAPHQL = """
 query ($login: String!) {
   user(login: $login) {
+    repositories(first: 100, ownerAffiliations: OWNER, visibility: PUBLIC) {
+      totalCount
+      nodes { stargazerCount }
+    }
     contributionsCollection {
+      totalCommitContributions
       contributionCalendar {
         totalContributions
         weeks {
@@ -51,8 +56,8 @@ weeks = calendar["weeks"]
 days = [entry for week in weeks for entry in week["contributionDays"]]
 daily = {dt.date.fromisoformat(entry["date"]): int(entry["contributionCount"]) for entry in days}
 
-def search_count(extra=""):
-    q = "author:" + LOGIN + " is:pr" + ((" " + extra) if extra else "")
+def search_count(extra="", kind="pr"):
+    q = "author:" + LOGIN + " is:" + kind + ((" " + extra) if extra else "")
     url = API + "/search/issues?" + urlencode({"q": q, "per_page": "1"})
     response = get_json(url)
     if response.get("incomplete_results"):
@@ -62,6 +67,13 @@ def search_count(extra=""):
 prs_created = search_count()
 prs_merged = search_count("is:merged")
 prs_open = search_count("is:open")
+issues_opened = search_count(kind="issue")
+repositories = response["data"]["user"]["repositories"]
+public_repos = int(repositories["totalCount"])
+if len(repositories["nodes"]) != public_repos:
+    raise RuntimeError("Repository count exceeds 100; refusing a partial stars total")
+stars_received = sum(int(repo["stargazerCount"]) for repo in repositories["nodes"])
+counted_commits = int(response["data"]["user"]["contributionsCollection"]["totalCommitContributions"])
 if prs_merged + prs_open > prs_created:
     raise RuntimeError("PR totals are inconsistent; refusing to publish a misleading dashboard")
 
@@ -95,7 +107,7 @@ colors = {
 }
 parts = [
     '<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="570" viewBox="0 0 1060 570" role="img" '
-    'aria-label="GitHub activity: contribution calendar, pull request totals, and streaks">',
+    'aria-label="GitHub activity: commits, public repositories, stars, issues, pull requests, merged PRs, streaks and contribution heatmap">',
     '<defs>',
     '<linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1020"/>'
     '<stop offset="1" stop-color="#102238"/></linearGradient>',
@@ -121,23 +133,26 @@ parts = [
 ]
 
 stats = [
-    ("Contributions", format(total, ","), "GitHub calendar · past year", "#86efac"),
-    ("Pull requests", format(prs_created, ","), "Created · accessible repos", "#7dd3fc"),
-    ("Merged PRs", format(prs_merged, ","), "Merged · accessible repos", "#c4b5fd"),
-    ("Current streak", str(current) + "d", "Today or yesterday · UTC", "#fcd34d"),
-    ("Longest streak", str(longest) + "d", "Longest in the past year", "#a5b4fc"),
-    ("Open PRs", format(prs_open, ","), "Currently open", "#5eead4"),
+    ("Contributions", format(total, ","), "Past 12 months", "#86efac"),
+    ("Counted commits", format(counted_commits, ","), "Past 12 months", "#5eead4"),
+    ("PRs opened", format(prs_created, ","), "All-time / visible", "#7dd3fc"),
+    ("PRs merged", format(prs_merged, ","), "All-time / visible", "#c4b5fd"),
+    ("Open PRs", format(prs_open, ","), "Currently open", "#fcd34d"),
+    ("Issues opened", format(issues_opened, ","), "All-time / visible", "#f9a8d4"),
+    ("Public repos", format(public_repos, ","), "Owned repositories", "#a5b4fc"),
+    ("Stars received", format(stars_received, ","), "On public repos", "#86efac"),
+    ("Current streak", str(current) + "d", "Today / yesterday", "#fcd34d"),
+    ("Longest streak", str(longest) + "d", "Within past year", "#5eead4"),
 ]
 for index, (name, value, note, color) in enumerate(stats):
-    col = index % 3
-    row = index // 3
-    x, y = 28 + col * 342, 98 + row * 102
+    col, row = index % 5, index // 5
+    x, y = 28 + col * 204, 98 + row * 102
     parts.extend([
-        f'<rect x="{x}" y="{y}" width="320" height="92" rx="14" fill="#111f31" stroke="#2b4057"/>',
-        f'<rect x="{x + 14}" y="{y + 15}" width="4" height="20" rx="2" fill="{color}"/>',
-        f'<text x="{x + 29}" y="{y + 28}" class="metric-label">{esc(name)}</text>',
-        f'<text x="{x + 17}" y="{y + 66}" class="metric" fill="{color}">{esc(value)}</text>',
-        f'<text x="{x + 127}" y="{y + 66}" class="metric-note">{esc(note)}</text>',
+        f'<rect x="{x}" y="{y}" width="188" height="92" rx="13" fill="#111f31" stroke="#2b4057"/>',
+        f'<rect x="{x + 13}" y="{y + 12}" width="4" height="18" rx="2" fill="{color}"/>',
+        f'<text x="{x + 25}" y="{y + 25}" class="metric-label">{esc(name)}</text>',
+        f'<text x="{x + 14}" y="{y + 58}" class="metric" fill="{color}">{esc(value)}</text>',
+        f'<text x="{x + 14}" y="{y + 79}" class="metric-note">{esc(note)}</text>',
     ])
 
 parts.extend([
@@ -181,4 +196,4 @@ parts.extend([
 target = Path("assets/contribution-dashboard.svg")
 target.parent.mkdir(parents=True, exist_ok=True)
 target.write_text("\n".join(parts) + "\n", encoding="utf-8")
-print(f"Updated {target}: {total} contributions; {prs_created} PRs; {prs_merged} merged; {prs_open} open; streak {current} days")
+print(f"Updated {target}: {total} contributions; {counted_commits} counted commits; {prs_created} PRs; {prs_merged} merged; {prs_open} open; {issues_opened} issues; {public_repos} public repos; {stars_received} stars; streak {current} days")
