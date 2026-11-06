@@ -47,13 +47,13 @@
 
 <p align="center">
   <a href="https://github.com/search?q=author%3AHarshil-1603+is%3Apr&amp;type=pullrequests">
-    <img src="./assets/github-metrics.svg" width="100%" alt="GitHub at a glance: all-time public pull requests opened, pull requests merged, issues opened, and repositories" />
+    <img src="./assets/github-metrics.svg" width="100%" alt="GitHub at a glance: all-time public pull requests opened, pull requests merged, issues opened, repositories, and stars received" />
   </a>
 </p>
 
 <p align="center">
   <a href="https://github.com/Harshil-1603?tab=overview">
-    <img src="./assets/contribution-dashboard.svg" width="100%" alt="GitHub contribution calendar, past-year contributions, current streak, longest streak, and active days" />
+    <img src="./assets/contribution-dashboard.svg" width="100%" alt="GitHub contribution calendar, past-year contributions, counted commits, current streak, longest streak, and active days" />
   </a>
 </p>
 
