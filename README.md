@@ -47,30 +47,13 @@
 
 <p align="center">
   <a href="https://github.com/Harshil-1603?tab=overview">
-    <img src="https://ghchart.rshah.org/39d353/Harshil-1603" width="100%" alt="GitHub contribution calendar showing daily contributions in shades of green" />
+    <img src="./assets/contribution-dashboard.svg" width="100%" alt="GitHub contribution heatmap, contribution total, current streak, and longest streak, refreshed from GitHub's API every six hours" />
   </a>
 </p>
 
 <p align="center">
-  <sub>Daily contribution activity · <a href="https://github.com/Harshil-1603?tab=overview">View the official GitHub contribution calendar</a></sub>
+  <sub>Based on GitHub's contribution calendar, automatically refreshed every six hours via <a href="./.github/workflows/contribution-dashboard.yml">GitHub Actions</a>. Streaks are calculated using UTC dates; longest streak covers the displayed past year. <a href="https://github.com/Harshil-1603?tab=overview">View official activity</a>.</sub>
 </p>
-
-<p align="center">
-  <a href="https://github.com/Harshil-1603?tab=repositories">
-    <img src="https://github-stats-extended.vercel.app/api?username=Harshil-1603&amp;bg_color=0d1117&amp;title_color=39d353&amp;text_color=c9d1d9&amp;icon_color=39d353&amp;border_color=30363d&amp;border_radius=12&amp;show_icons=true&amp;rank_icon=github&amp;show=prs_merged&amp;hide=contribs&amp;custom_title=GitHub+at+a+glance&amp;card_width=420&amp;disable_animations=true" width="420" alt="GitHub repository and pull request statistics" />
-  </a>
-  <a href="https://github.com/Harshil-1603?tab=repositories">
-    <img src="https://github-stats-extended.vercel.app/api/top-langs/?username=Harshil-1603&amp;bg_color=0d1117&amp;title_color=39d353&amp;text_color=c9d1d9&amp;icon_color=39d353&amp;border_color=30363d&amp;border_radius=12&amp;layout=compact&amp;langs_count=8&amp;card_width=420&amp;custom_title=Languages+across+repositories&amp;disable_animations=true" width="420" alt="Languages used across public repositories" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/Harshil-1603?tab=overview">
-    <img src="https://github-readme-activity-graph.vercel.app/graph?username=Harshil-1603&amp;bg_color=0d1117&amp;color=c9d1d9&amp;line=39d353&amp;point=58a6ff&amp;area=true&amp;area_color=238636&amp;hide_border=true&amp;custom_title=Contribution%20activity" width="100%" alt="GitHub contribution activity graph" />
-  </a>
-</p>
-
-<sub>Contribution counts and activity may be cached by external image services. For the authoritative record, use the <a href="https://github.com/Harshil-1603?tab=overview">GitHub profile contribution calendar</a>. Streak totals are intentionally omitted because third-party counters can disagree with GitHub.</sub>
 
 ## Featured projects
 
