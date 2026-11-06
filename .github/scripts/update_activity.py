@@ -1,27 +1,24 @@
 #!/usr/bin/env python3
-"""Render GitHub-owned activity cards and calendar from GitHub GraphQL.
+"""Render a profile activity dashboard using GitHub's contribution and PR APIs.
 
-The four overview numbers describe all-time PUBLIC activity. The calendar,
-streak and active-day figures describe only the last rolling year.
+Use PROFILE_STATS_TOKEN (repository Actions secret) for private-repository
+visibility. Without it, GITHUB_TOKEN may only see public contributions.
 """
 import datetime as dt
 import html
 import json
 import os
 from pathlib import Path
+from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 LOGIN = os.environ.get("GH_LOGIN", "Harshil-1603")
 TOKEN = os.environ["GH_TOKEN"]
-QUERY = """
-query($login: String!, $prs: String!, $merged: String!, $issues: String!) {
+API = "https://api.github.com"
+GRAPHQL = """
+query ($login: String!) {
   user(login: $login) {
-    repositories(first: 100, ownerAffiliations: OWNER, visibility: PUBLIC) {
-      totalCount
-      nodes { stargazerCount }
-    }
     contributionsCollection {
-      totalCommitContributions
       contributionCalendar {
         totalContributions
         weeks {
@@ -30,192 +27,158 @@ query($login: String!, $prs: String!, $merged: String!, $issues: String!) {
       }
     }
   }
-  authoredPRs: search(query: $prs, type: ISSUE, first: 1) { issueCount }
-  mergedPRs: search(query: $merged, type: ISSUE, first: 1) { issueCount }
-  authoredIssues: search(query: $issues, type: ISSUE, first: 1) { issueCount }
 }
 """
 
-def esc(value):
-    return html.escape(str(value), quote=True)
-
-
-variables = {
-    "login": LOGIN,
-    "prs": f"is:pr author:{LOGIN}",
-    "merged": f"is:pr is:merged author:{LOGIN}",
-    "issues": f"is:issue author:{LOGIN}",
-}
-payload = json.dumps({"query": QUERY, "variables": variables}).encode("utf-8")
-request = Request(
-    "https://api.github.com/graphql",
-    data=payload,
-    headers={
+def get_json(url, payload=None):
+    headers = {
         "Authorization": "Bearer " + TOKEN,
-        "Content-Type": "application/json",
-        "User-Agent": "github-profile-activity-builder",
-    },
-)
-with urlopen(request, timeout=35) as response:
-    result = json.load(response)
-if result.get("errors"):
-    raise RuntimeError("GraphQL errors: " + json.dumps(result["errors"]))
-data = result["data"]
-if not data.get("user"):
-    raise ValueError(f"No GitHub user found for {LOGIN!r}")
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "Harshil-profile-activity",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    if payload is not None:
+        headers["Content-Type"] = "application/json"
+        payload = json.dumps(payload).encode("utf-8")
+    with urlopen(Request(url, data=payload, headers=headers), timeout=35) as response:
+        return json.load(response)
 
-calendar = data["user"]["contributionsCollection"]["contributionCalendar"]
+response = get_json(API + "/graphql", {"query": GRAPHQL, "variables": {"login": LOGIN}})
+if response.get("errors"):
+    raise RuntimeError("GitHub GraphQL failure: " + str(response["errors"]))
+calendar = response["data"]["user"]["contributionsCollection"]["contributionCalendar"]
 weeks = calendar["weeks"]
-days = [day for week in weeks for day in week["contributionDays"]]
-counts = {dt.date.fromisoformat(day["date"]): day["contributionCount"] for day in days}
-today = dt.datetime.now(dt.timezone.utc).date()
-start_day = today if counts.get(today, 0) else today - dt.timedelta(days=1)
-current_streak = 0
-cursor = start_day
-while counts.get(cursor, 0) > 0:
-    current_streak += 1
-    cursor -= dt.timedelta(days=1)
+days = [entry for week in weeks for entry in week["contributionDays"]]
+daily = {dt.date.fromisoformat(entry["date"]): int(entry["contributionCount"]) for entry in days}
 
-longest_streak = running = 0
-for day in days:
-    if day["contributionCount"]:
+def search_count(extra=""):
+    q = "author:" + LOGIN + " is:pr" + ((" " + extra) if extra else "")
+    url = API + "/search/issues?" + urlencode({"q": q, "per_page": "1"})
+    response = get_json(url)
+    if response.get("incomplete_results"):
+        raise RuntimeError("GitHub search returned incomplete results for " + q)
+    return int(response["total_count"])
+
+prs_created = search_count()
+prs_merged = search_count("is:merged")
+prs_open = search_count("is:open")
+if prs_merged + prs_open > prs_created:
+    raise RuntimeError("PR totals are inconsistent; refusing to publish a misleading dashboard")
+
+today = dt.datetime.now(dt.timezone.utc).date()
+last_active = today if daily.get(today, 0) else today - dt.timedelta(days=1)
+current = 0
+date = last_active
+while daily.get(date, 0):
+    current += 1
+    date -= dt.timedelta(days=1)
+
+longest = running = 0
+for entry in days:
+    if int(entry["contributionCount"]):
         running += 1
-        longest_streak = max(longest_streak, running)
+        longest = max(longest, running)
     else:
         running = 0
 
 total = int(calendar["totalContributions"])
-annual_commits = int(data["user"]["contributionsCollection"]["totalCommitContributions"])
-active_days = sum(day["contributionCount"] > 0 for day in days)
-prs = int(data["authoredPRs"]["issueCount"])
-merged_prs = int(data["mergedPRs"]["issueCount"])
-issues = int(data["authoredIssues"]["issueCount"])
-public_repos = int(data["user"]["repositories"]["totalCount"])
-repo_nodes = data["user"]["repositories"]["nodes"]
-if len(repo_nodes) != public_repos:
-    raise ValueError("Star totals require pagination beyond 100 repositories; refusing an incomplete figure")
-stars_received = sum(node["stargazerCount"] for node in repo_nodes)
-if merged_prs > prs:
-    raise ValueError("Merged PR count cannot exceed opened PR count")
+last_sync = dt.datetime.now(dt.timezone.utc).strftime("%d %b %Y · %H:%M UTC")
+esc = lambda s: html.escape(str(s), quote=True)
 
-updated_at = dt.datetime.now(dt.timezone.utc).strftime("%d %b %Y · %H:%M UTC")
-BG = "#0b1220"
-PANEL = "#111e30"
-BORDER = "#263a53"
-TEXT = "#f0f6ff"
-MUTED = "#94a9c0"
-GREEN = "#62e7c7"
-BLUE = "#99b9ff"
-AMBER = "#f5be82"
-LAVENDER = "#caa5ff"
-
-def svg_begin(height, title):
-    return [
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="{height}" viewBox="0 0 1000 {height}" role="img" aria-label="{esc(title)}">',
-        '<defs>',
-        '<linearGradient id="back" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0e1a2d"/><stop offset="1" stop-color="#0b1220"/></linearGradient>',
-        '<linearGradient id="accent" x1="0" x2="1"><stop offset="0" stop-color="#62e7c7"/><stop offset="1" stop-color="#91b6ff"/></linearGradient>',
-        '</defs>',
-        '<style>',
-        f'.heading{{font:700 20px Arial,Helvetica,sans-serif;fill:{TEXT}}}',
-        f'.eyebrow{{font:700 12px Arial,Helvetica,sans-serif;letter-spacing:1.3px;fill:{MUTED}}}',
-        f'.number{{font:700 34px Arial,Helvetica,sans-serif;fill:{TEXT}}}',
-        f'.caption{{font:500 13px Arial,Helvetica,sans-serif;fill:{MUTED}}}',
-        f'.month{{font:12px Arial,Helvetica,sans-serif;fill:{MUTED}}}',
-        f'.foot{{font:11px Arial,Helvetica,sans-serif;fill:{MUTED}}}',
-        '</style>',
-        f'<rect x="1" y="1" width="998" height="{height-2}" rx="18" fill="url(#back)" stroke="{BORDER}"/>',
-        '<rect x="22" y="22" width="5" height="18" rx="2" fill="url(#accent)"/>',
-    ]
-
-def card(x, y, width, height, value, label, accent):
-    return [
-        f'<rect x="{x}" y="{y}" width="{width}" height="{height}" rx="12" fill="{PANEL}" stroke="{BORDER}"/>',
-        f'<rect x="{x+17}" y="{y+17}" width="6" height="6" rx="3" fill="{accent}"/>',
-        f'<text x="{x+17}" y="{y+53}" class="number">{esc(f"{value:,}")}</text>',
-        f'<text x="{x+17}" y="{y+77}" class="caption">{esc(label)}</text>',
-    ]
-
-# First image: explicit all-time, public counts. No third-party stats API.
-stat_svg = svg_begin(184, f"{LOGIN} GitHub overview: {prs} opened PRs, {merged_prs} merged, {issues} issues, {public_repos} public repositories, {stars_received} stars received")
-stat_svg += [
-    '<text x="39" y="38" class="heading">GitHub at a glance</text>',
-    '<text x="975" y="36" text-anchor="end" class="eyebrow">ALL-TIME / PUBLIC</text>',
-]
-overview = [
-    (prs, "Pull requests opened", GREEN),
-    (merged_prs, "Pull requests merged", BLUE),
-    (issues, "Issues opened", AMBER),
-    (public_repos, "Public repositories", LAVENDER),
-    (stars_received, "Stars received", GREEN),
-]
-for i, (value, label, accent) in enumerate(overview):
-    stat_svg.extend(card(24 + 195*i, 59, 174, 100, value, label, accent))
-stat_svg += ['</svg>']
-
-# Second image: true day-of-week alignment, one color legend and a well-spaced grid.
-activity_svg = svg_begin(412, f"{LOGIN} GitHub activity: {total} contributions in the last year, current streak {current_streak} days, longest streak {longest_streak} days in the last year")
-activity_svg += [
-    '<text x="39" y="38" class="heading">Contribution activity</text>',
-    '<text x="975" y="36" class="eyebrow" text-anchor="end">ROLLING 12 MONTHS</text>',
-]
-summaries = [
-    (total, "Contributions / year", GREEN),
-    (annual_commits, "Counted commits / year", BLUE),
-    (current_streak, "Current streak / days", AMBER),
-    (longest_streak, "Longest streak / year", LAVENDER),
-]
-for i, (value, label, accent) in enumerate(summaries):
-    activity_svg.extend(card(24 + 245*i, 59, 223, 100, value, label, accent))
-
-activity_svg.extend([
-    f'<rect x="24" y="177" width="952" height="186" rx="12" fill="{PANEL}" stroke="{BORDER}"/>',
-    '<text x="41" y="200" class="eyebrow">DAILY CONTRIBUTIONS</text>',
-    '<text x="961" y="200" text-anchor="end" class="month">Each square represents one day</text>',
-    '<text x="48" y="252" class="month">Sun</text>',
-    '<text x="48" y="284" class="month">Tue</text>',
-    '<text x="48" y="316" class="month">Thu</text>',
-])
-
-# Square width 11 + gap 5 = 16. 53-week calendars fit in 1000px.
+# Dark indigo / emerald / cyan palette, using accessible contrast and an even grid.
 colors = {
-    "NONE": "#1c2d42",
-    "FIRST_QUARTILE": "#13564f",
-    "SECOND_QUARTILE": "#17877a",
-    "THIRD_QUARTILE": "#28b79e",
-    "FOURTH_QUARTILE": "#72efc8",
+    "NONE": "#172438",
+    "FIRST_QUARTILE": "#155e53",
+    "SECOND_QUARTILE": "#0d9488",
+    "THIRD_QUARTILE": "#2dd4bf",
+    "FOURTH_QUARTILE": "#86efac",
 }
-last_month = None
-for col, week in enumerate(weeks):
-    for item in week["contributionDays"]:
-        date = dt.date.fromisoformat(item["date"])
-        weekday = (date.weekday() + 1) % 7  # GitHub weeks begin on Sunday.
-        x, y = 91 + 16 * col, 240 + 16 * weekday
-        fill = colors[item["contributionLevel"]]
-        activity_svg.append(
-            f'<rect x="{x}" y="{y}" width="12" height="12" rx="2.5" fill="{fill}">'
-            f'<title>{esc(date.isoformat())}: {item["contributionCount"]} contributions</title></rect>'
+parts = [
+    '<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="570" viewBox="0 0 1060 570" role="img" '
+    'aria-label="GitHub activity: contribution calendar, pull request totals, and streaks">',
+    '<defs>',
+    '<linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1020"/>'
+    '<stop offset="1" stop-color="#102238"/></linearGradient>',
+    '<linearGradient id="accent" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2dd4bf"/>'
+    '<stop offset=".52" stop-color="#86efac"/><stop offset="1" stop-color="#818cf8"/></linearGradient>',
+    '</defs>',
+    '<style>'
+    '.eyebrow{font:700 12px Arial,sans-serif;letter-spacing:2px;fill:#5eead4}'
+    '.heading{font:700 30px Arial,sans-serif;fill:#f1f5f9}'
+    '.muted{font:13px Arial,sans-serif;fill:#9baec3}'
+    '.metric{font:700 32px Arial,sans-serif}'
+    '.metric-label{font:600 13px Arial,sans-serif;fill:#dce8f4}'
+    '.metric-note{font:11px Arial,sans-serif;fill:#91a4ba}'
+    '.chart-head{font:700 13px Arial,sans-serif;letter-spacing:1.2px;fill:#edf5ff}'
+    '.axis{font:12px Arial,sans-serif;fill:#a3b4c8}'
+    '.foot{font:11px Arial,sans-serif;fill:#889eb4}'
+    '</style>',
+    '<rect x="1" y="1" width="1058" height="568" rx="20" fill="url(#background)" stroke="#263b52"/>',
+    '<rect x="28" y="24" width="49" height="4" rx="2" fill="url(#accent)"/>',
+    '<text class="eyebrow" x="88" y="33">GITHUB / CONTRIBUTION SIGNAL</text>',
+    '<text class="heading" x="28" y="76">Developer activity</text>',
+    '<text class="muted" x="1030" y="67" text-anchor="end">@' + esc(LOGIN) + '</text>',
+]
+
+stats = [
+    ("Contributions", format(total, ","), "GitHub calendar · past year", "#86efac"),
+    ("Pull requests", format(prs_created, ","), "Created · accessible repos", "#7dd3fc"),
+    ("Merged PRs", format(prs_merged, ","), "Merged · accessible repos", "#c4b5fd"),
+    ("Current streak", str(current) + "d", "Today or yesterday · UTC", "#fcd34d"),
+    ("Longest streak", str(longest) + "d", "Longest in the past year", "#a5b4fc"),
+    ("Open PRs", format(prs_open, ","), "Currently open", "#5eead4"),
+]
+for index, (name, value, note, color) in enumerate(stats):
+    col = index % 3
+    row = index // 3
+    x, y = 28 + col * 342, 98 + row * 102
+    parts.extend([
+        f'<rect x="{x}" y="{y}" width="320" height="92" rx="14" fill="#111f31" stroke="#2b4057"/>',
+        f'<rect x="{x + 14}" y="{y + 15}" width="4" height="20" rx="2" fill="{color}"/>',
+        f'<text x="{x + 29}" y="{y + 28}" class="metric-label">{esc(name)}</text>',
+        f'<text x="{x + 17}" y="{y + 66}" class="metric" fill="{color}">{esc(value)}</text>',
+        f'<text x="{x + 127}" y="{y + 66}" class="metric-note">{esc(note)}</text>',
+    ])
+
+parts.extend([
+    '<rect x="28" y="310" width="1004" height="229" rx="15" fill="#0c1727" stroke="#2b4057"/>',
+    '<text x="48" y="340" class="chart-head">CONTRIBUTION CALENDAR</text>',
+    '<text x="1012" y="340" class="axis" text-anchor="end">Last 12 months · Sunday–Saturday</text>',
+])
+for weekday, label in [(0, "Sun"), (2, "Tue"), (4, "Thu"), (6, "Sat")]:
+    parts.append(f'<text x="57" y="{393 + weekday * 16}" class="axis">{label}</text>')
+
+month_labels = set()
+for column, week in enumerate(weeks):
+    x = 127 + column * 16
+    for entry in week["contributionDays"]:
+        date = dt.date.fromisoformat(entry["date"])
+        weekday = (date.weekday() + 1) % 7
+        y = 382 + weekday * 16
+        level = entry["contributionLevel"]
+        count = int(entry["contributionCount"])
+        parts.append(
+            f'<rect x="{x}" y="{y}" width="12" height="12" rx="3" fill="{colors[level]}">'
+            f'<title>{date.isoformat()}: {count} contributions</title></rect>'
         )
-        key = (date.year, date.month)
-        if key != last_month:
-            if col > 0:  # The first partial month does not need a label.
-                activity_svg.append(
-                    f'<text x="{x}" y="228" class="month">{esc(date.strftime("%b"))}</text>'
-                )
-            last_month = key
+        month = (date.year, date.month)
+        if date.day <= 7 and month not in month_labels:
+            month_labels.add(month)
+            parts.append(f'<text x="{x}" y="372" class="axis">{esc(date.strftime("%b"))}</text>')
 
-activity_svg.append(f'<text x="28" y="392" class="foot">Refreshed {esc(updated_at)} · {active_days} active days this year</text>')
-activity_svg.append('<text x="769" y="391" class="foot">Less</text>')
-for i, fill in enumerate(colors.values()):
-    activity_svg.append(
-        f'<rect x="{802 + 19*i}" y="380" width="12" height="12" rx="2.5" fill="{fill}"/>'
-    )
-activity_svg.append('<text x="911" y="391" class="foot">More</text>')
-activity_svg.append('</svg>')
-
-out_dir = Path("assets")
-out_dir.mkdir(parents=True, exist_ok=True)
-(out_dir / "github-metrics.svg").write_text("\n".join(stat_svg) + "\n", encoding="utf-8")
-(out_dir / "contribution-dashboard.svg").write_text("\n".join(activity_svg) + "\n", encoding="utf-8")
-print(f"{LOGIN}: {prs} PRs opened; {merged_prs} merged; {issues} issues; {public_repos} public repos; {stars_received} stars received")
-print(f"Last year: {total} contributions; {annual_commits} commits; current streak {current_streak}; longest {longest_streak}; {active_days} active days")
+parts.extend([
+    '<text x="48" y="518" class="foot">Includes contributions visible to this workflow token</text>',
+    '<text x="831" y="518" class="axis">Less</text>',
+])
+for index, color in enumerate(colors.values()):
+    parts.append(f'<rect x="{863 + index * 22}" y="507" width="14" height="14" rx="3" fill="{color}"/>')
+parts.extend([
+    '<text x="981" y="518" class="axis">More</text>',
+    '<text x="28" y="559" class="foot">Data: GitHub GraphQL + Search API</text>',
+    '<text x="1030" y="559" class="foot" text-anchor="end">Refreshed ' + esc(last_sync) + '</text>',
+    '</svg>',
+])
+target = Path("assets/contribution-dashboard.svg")
+target.parent.mkdir(parents=True, exist_ok=True)
+target.write_text("\n".join(parts) + "\n", encoding="utf-8")
+print(f"Updated {target}: {total} contributions; {prs_created} PRs; {prs_merged} merged; {prs_open} open; streak {current} days")
