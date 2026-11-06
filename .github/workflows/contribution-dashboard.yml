@@ -1,0 +1,34 @@
+name: Refresh GitHub contribution dashboard
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+  push:
+    branches: [main]
+    paths:
+      - '.github/scripts/update_activity.py'
+      - '.github/workflows/contribution-dashboard.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate dashboard from GitHub contribution data
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_LOGIN: Harshil-1603
+        run: python3 .github/scripts/update_activity.py
+      - name: Commit dashboard only when it changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/contribution-dashboard.svg
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: refresh GitHub contribution dashboard"
+            git push
+          fi
