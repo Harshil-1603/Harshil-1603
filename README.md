@@ -94,8 +94,11 @@
 
 I contribute fixes upstream: reproduce the issue, isolate the cause, and add regression coverage where appropriate. Selected merged pull requests:
 
+<sub>Note: commits made solely on fork branches (such as <a href="https://github.com/Harshil-1603/flowd">my flowd fork</a>) do not count as profile commit contributions until merged into the upstream default branch. Opening a PR can be a separate contribution.</sub>
+
 | Project | Contribution |
 | :--- | :--- |
+| **[flowd](https://github.com/harshitsaini17/flowd/pulls?q=author%3AHarshil-1603)** · Python / Linux | Merged [Ubuntu / GNOME installation support](https://github.com/harshitsaini17/flowd/pull/1) and [GNOME preview fixes](https://github.com/harshitsaini17/flowd/pull/3). |
 | **[miniredis](https://github.com/alicebob/miniredis/pull/482)** · Go | Keep copied streams and consumer groups independent. |
 | **[LNbits](https://github.com/lnbits/lnbits/pull/4262)** · Python | Preserve fractional seconds in SQLite date filters. |
 | **[OpenFeature Go SDK](https://github.com/open-feature/go-sdk/pull/624)** · Go | Validate feature-flag metadata types in telemetry. |
