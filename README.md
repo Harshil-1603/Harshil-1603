@@ -46,25 +46,19 @@
 ## GitHub activity
 
 <p align="center">
-  <a href="https://github.com/search?q=author%3AHarshil-1603+is%3Apr&amp;type=pullrequests">
-    <img src="./assets/github-metrics.svg" width="100%" alt="GitHub at a glance: all-time public pull requests opened, pull requests merged, issues opened, repositories, and stars received" />
-  </a>
-</p>
-
-<p align="center">
   <a href="https://github.com/Harshil-1603?tab=overview">
-    <img src="./assets/contribution-dashboard.svg" width="100%" alt="GitHub contribution calendar, past-year contributions, counted commits, current streak, longest streak, and active days" />
+    <img src="./assets/contribution-dashboard.svg" width="100%" alt="GitHub activity dashboard with a 12-month contribution heatmap, pull requests created, merged and open, plus current and longest streaks" />
   </a>
 </p>
 
 <p align="center">
-  <sub>Live data sourced from GitHub GraphQL · <a href="./.github/workflows/contribution-dashboard.yml">refreshed automatically every 6 hours</a> · <a href="https://github.com/Harshil-1603?tab=overview">official contribution history</a></sub>
+  <a href="https://github.com/search?q=author%3AHarshil-1603+is%3Apr&type=pullrequests">All pull requests</a> &nbsp;·&nbsp;
+  <a href="https://github.com/search?q=author%3AHarshil-1603+is%3Apr+is%3Amerged&type=pullrequests">Merged PRs</a> &nbsp;·&nbsp;
+  <a href="https://github.com/search?q=author%3AHarshil-1603+is%3Apr+is%3Aopen&type=pullrequests">Open PRs</a> &nbsp;·&nbsp;
+  <a href="https://github.com/Harshil-1603?tab=overview">Official contribution calendar</a>
 </p>
 
-<details>
-  <summary>How these numbers are counted</summary>
-  <p>The top card shows all-time publicly visible authored pull requests, merged pull requests, opened issues, and public repositories. The contribution chart shows GitHub's official rolling-year calendar, including its qualifying activity rules. Current streak allows today to be incomplete; longest streak covers only the displayed year. Counts are not updated on every page load; the scheduled workflow refreshes the SVG images every six hours. Private contributions depend on what GitHub exposes to the workflow token.</p>
-</details>
+<sub>Dashboard generated from GitHub's GraphQL and Search APIs by <a href="./.github/workflows/contribution-dashboard.yml">GitHub Actions</a> every six hours. Contribution history and streaks use UTC dates. PR totals reflect repositories visible to the workflow token; private activity may be omitted unless that token can read it. The longest streak covers the displayed 12 months. Timestamp inside the graphic indicates its last successful refresh.</sub>
 
 ## Featured projects
 
