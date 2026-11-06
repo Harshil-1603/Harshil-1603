@@ -16,10 +16,12 @@ TOKEN = os.environ["GH_TOKEN"]
 QUERY = """
 query($login: String!, $prs: String!, $merged: String!, $issues: String!) {
   user(login: $login) {
-    repositories(first: 1, ownerAffiliations: OWNER, visibility: PUBLIC) {
+    repositories(first: 100, ownerAffiliations: OWNER, visibility: PUBLIC) {
       totalCount
+      nodes { stargazerCount }
     }
     contributionsCollection {
+      totalCommitContributions
       contributionCalendar {
         totalContributions
         weeks {
@@ -83,11 +85,16 @@ for day in days:
         running = 0
 
 total = int(calendar["totalContributions"])
+annual_commits = int(data["user"]["contributionsCollection"]["totalCommitContributions"])
 active_days = sum(day["contributionCount"] > 0 for day in days)
 prs = int(data["authoredPRs"]["issueCount"])
 merged_prs = int(data["mergedPRs"]["issueCount"])
 issues = int(data["authoredIssues"]["issueCount"])
 public_repos = int(data["user"]["repositories"]["totalCount"])
+repo_nodes = data["user"]["repositories"]["nodes"]
+if len(repo_nodes) != public_repos:
+    raise ValueError("Star totals require pagination beyond 100 repositories; refusing an incomplete figure")
+stars_received = sum(node["stargazerCount"] for node in repo_nodes)
 if merged_prs > prs:
     raise ValueError("Merged PR count cannot exceed opened PR count")
 
@@ -130,7 +137,7 @@ def card(x, y, width, height, value, label, accent):
     ]
 
 # First image: explicit all-time, public counts. No third-party stats API.
-stat_svg = svg_begin(184, f"{LOGIN} GitHub overview: {prs} opened PRs, {merged_prs} merged, {issues} issues, {public_repos} public repositories")
+stat_svg = svg_begin(184, f"{LOGIN} GitHub overview: {prs} opened PRs, {merged_prs} merged, {issues} issues, {public_repos} public repositories, {stars_received} stars received")
 stat_svg += [
     '<text x="39" y="38" class="heading">GitHub at a glance</text>',
     '<text x="975" y="36" text-anchor="end" class="eyebrow">ALL-TIME / PUBLIC</text>',
@@ -140,9 +147,10 @@ overview = [
     (merged_prs, "Pull requests merged", BLUE),
     (issues, "Issues opened", AMBER),
     (public_repos, "Public repositories", LAVENDER),
+    (stars_received, "Stars received", GREEN),
 ]
 for i, (value, label, accent) in enumerate(overview):
-    stat_svg.extend(card(24 + 245*i, 59, 223, 100, value, label, accent))
+    stat_svg.extend(card(24 + 195*i, 59, 174, 100, value, label, accent))
 stat_svg += ['</svg>']
 
 # Second image: true day-of-week alignment, one color legend and a well-spaced grid.
@@ -153,9 +161,9 @@ activity_svg += [
 ]
 summaries = [
     (total, "Contributions / year", GREEN),
-    (current_streak, "Current streak / days", BLUE),
-    (longest_streak, "Longest streak / year", AMBER),
-    (active_days, "Active days / year", LAVENDER),
+    (annual_commits, "Counted commits / year", BLUE),
+    (current_streak, "Current streak / days", AMBER),
+    (longest_streak, "Longest streak / year", LAVENDER),
 ]
 for i, (value, label, accent) in enumerate(summaries):
     activity_svg.extend(card(24 + 245*i, 59, 223, 100, value, label, accent))
@@ -196,7 +204,7 @@ for col, week in enumerate(weeks):
                 )
             last_month = key
 
-activity_svg.append(f'<text x="28" y="392" class="foot">Refreshed {esc(updated_at)} · GitHub-reported contribution days</text>')
+activity_svg.append(f'<text x="28" y="392" class="foot">Refreshed {esc(updated_at)} · {active_days} active days this year</text>')
 activity_svg.append('<text x="769" y="391" class="foot">Less</text>')
 for i, fill in enumerate(colors.values()):
     activity_svg.append(
@@ -209,5 +217,5 @@ out_dir = Path("assets")
 out_dir.mkdir(parents=True, exist_ok=True)
 (out_dir / "github-metrics.svg").write_text("\n".join(stat_svg) + "\n", encoding="utf-8")
 (out_dir / "contribution-dashboard.svg").write_text("\n".join(activity_svg) + "\n", encoding="utf-8")
-print(f"{LOGIN}: {prs} PRs opened; {merged_prs} merged; {issues} issues; {public_repos} public repos")
-print(f"Last year: {total} contributions; current streak {current_streak}; longest {longest_streak}; {active_days} active days")
+print(f"{LOGIN}: {prs} PRs opened; {merged_prs} merged; {issues} issues; {public_repos} public repos; {stars_received} stars received")
+print(f"Last year: {total} contributions; {annual_commits} commits; current streak {current_streak}; longest {longest_streak}; {active_days} active days")
