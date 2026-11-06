@@ -12,9 +12,9 @@
 
 <p align="center">
   <a href="#tech-stack">Tech stack</a> &nbsp;·&nbsp;
-  <a href="#github-activity">GitHub stats</a> &nbsp;·&nbsp;
-  <a href="#selected-work">Projects</a> &nbsp;·&nbsp;
-  <a href="#open-source">Open source</a> &nbsp;·&nbsp;
+  <a href="#github-activity">Activity</a> &nbsp;·&nbsp;
+  <a href="#featured-projects">Projects</a> &nbsp;·&nbsp;
+  <a href="#open-source-contributions">Open source</a> &nbsp;·&nbsp;
   <a href="https://github.com/Harshil-1603?tab=repositories">All repositories</a>
 </p>
 
@@ -36,26 +36,33 @@
 ## GitHub activity
 
 <p align="center">
-  <a href="https://github.com/Harshil-1603?tab=repositories">
-    <img src="https://github-stats-extended.vercel.app/api?username=Harshil-1603&amp;bg_color=0d1117&amp;title_color=c9f76f&amp;text_color=f0f6fc&amp;icon_color=b7a7ff&amp;border_color=30363d&amp;border_radius=16&amp;show_icons=true&amp;rank_icon=github&amp;show=prs_merged&amp;hide=contribs&amp;custom_title=GitHub+by+the+numbers&amp;card_width=420&amp;disable_animations=true" width="420" align="top" alt="GitHub stats: stars, commits, pull requests, merged pull requests, and issues" />
-  </a>
-  <a href="https://github.com/Harshil-1603?tab=repositories">
-    <img src="https://github-stats-extended.vercel.app/api/top-langs/?username=Harshil-1603&amp;bg_color=0d1117&amp;title_color=c9f76f&amp;text_color=f0f6fc&amp;icon_color=b7a7ff&amp;border_color=30363d&amp;border_radius=16&amp;layout=compact&amp;langs_count=8&amp;card_width=420&amp;custom_title=Most+used+languages&amp;disable_animations=true" width="420" align="top" alt="Most used languages across my repositories" />
+  <a href="https://github.com/Harshil-1603?tab=overview">
+    <img src="https://ghchart.rshah.org/39d353/Harshil-1603" width="100%" alt="GitHub contribution calendar showing daily contributions in shades of green" />
   </a>
 </p>
+
 <p align="center">
-  <a href="https://github.com/Harshil-1603?tab=overview">
-    <img src="https://streak-stats.demolab.com/?user=Harshil-1603&amp;background=0D1117&amp;ring=C9F76F&amp;fire=B7A7FF&amp;currStreakNum=F0F6FC&amp;sideNums=F0F6FC&amp;currStreakLabel=C9F76F&amp;sideLabels=9BA6B2&amp;dates=9BA6B2&amp;border=30363D&amp;border_radius=16&amp;disable_animations=true" width="540" alt="GitHub contributions, current streak, and longest streak" />
+  <sub>Daily contribution activity · <a href="https://github.com/Harshil-1603?tab=overview">View the official GitHub contribution calendar</a></sub>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Harshil-1603?tab=repositories">
+    <img src="https://github-stats-extended.vercel.app/api?username=Harshil-1603&amp;bg_color=0d1117&amp;title_color=39d353&amp;text_color=c9d1d9&amp;icon_color=39d353&amp;border_color=30363d&amp;border_radius=12&amp;show_icons=true&amp;rank_icon=github&amp;show=prs_merged&amp;hide=contribs&amp;custom_title=GitHub+at+a+glance&amp;card_width=420&amp;disable_animations=true" width="420" alt="GitHub repository and pull request statistics" />
+  </a>
+  <a href="https://github.com/Harshil-1603?tab=repositories">
+    <img src="https://github-stats-extended.vercel.app/api/top-langs/?username=Harshil-1603&amp;bg_color=0d1117&amp;title_color=39d353&amp;text_color=c9d1d9&amp;icon_color=39d353&amp;border_color=30363d&amp;border_radius=12&amp;layout=compact&amp;langs_count=8&amp;card_width=420&amp;custom_title=Languages+across+repositories&amp;disable_animations=true" width="420" alt="Languages used across public repositories" />
   </a>
 </p>
 
 <p align="center">
   <a href="https://github.com/Harshil-1603?tab=overview">
-    <img src="https://ghchart.rshah.org/39d353/Harshil-1603" width="100%" alt="GitHub contribution calendar: daily activity shown as green squares" />
+    <img src="https://github-readme-activity-graph.vercel.app/graph?username=Harshil-1603&amp;bg_color=0d1117&amp;color=c9d1d9&amp;line=39d353&amp;point=58a6ff&amp;area=true&amp;area_color=238636&amp;hide_border=true&amp;custom_title=Contribution%20activity" width="100%" alt="GitHub contribution activity graph" />
   </a>
 </p>
 
-## Selected work
+<sub>Contribution counts and activity may be cached by external image services. For the authoritative record, use the <a href="https://github.com/Harshil-1603?tab=overview">GitHub profile contribution calendar</a>. Streak totals are intentionally omitted because third-party counters can disagree with GitHub.</sub>
+
+## Featured projects
 
 <table>
   <tr>
@@ -74,9 +81,9 @@
 
 **Also built:** [Face Recognition Attendance](https://github.com/Harshil-1603/face_recognition) — a Python web app that marks attendance with face recognition and syncs records to Google Sheets.
 
-## Open source
+## Open-source contributions
 
-I like the work behind a good fix: reproduce the edge case, understand the cause, and add a regression test. A few contributions merged upstream:
+I contribute fixes upstream: reproduce the issue, isolate the cause, and add regression coverage where appropriate. Selected merged pull requests:
 
 | Project | Contribution |
 | :--- | :--- |
