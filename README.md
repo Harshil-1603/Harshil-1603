@@ -46,14 +46,25 @@
 ## GitHub activity
 
 <p align="center">
-  <a href="https://github.com/Harshil-1603?tab=overview">
-    <img src="./assets/contribution-dashboard.svg" width="100%" alt="GitHub contribution heatmap, contribution total, current streak, and longest streak, refreshed from GitHub's API every six hours" />
+  <a href="https://github.com/search?q=author%3AHarshil-1603+is%3Apr&amp;type=pullrequests">
+    <img src="./assets/github-metrics.svg" width="100%" alt="GitHub at a glance: all-time public pull requests opened, pull requests merged, issues opened, and repositories" />
   </a>
 </p>
 
 <p align="center">
-  <sub>Based on GitHub's contribution calendar, automatically refreshed every six hours via <a href="./.github/workflows/contribution-dashboard.yml">GitHub Actions</a>. Streaks are calculated using UTC dates; longest streak covers the displayed past year. <a href="https://github.com/Harshil-1603?tab=overview">View official activity</a>.</sub>
+  <a href="https://github.com/Harshil-1603?tab=overview">
+    <img src="./assets/contribution-dashboard.svg" width="100%" alt="GitHub contribution calendar, past-year contributions, current streak, longest streak, and active days" />
+  </a>
 </p>
+
+<p align="center">
+  <sub>Live data sourced from GitHub GraphQL · <a href="./.github/workflows/contribution-dashboard.yml">refreshed automatically every 6 hours</a> · <a href="https://github.com/Harshil-1603?tab=overview">official contribution history</a></sub>
+</p>
+
+<details>
+  <summary>How these numbers are counted</summary>
+  <p>The top card shows all-time publicly visible authored pull requests, merged pull requests, opened issues, and public repositories. The contribution chart shows GitHub's official rolling-year calendar, including its qualifying activity rules. Current streak allows today to be incomplete; longest streak covers only the displayed year. Counts are not updated on every page load; the scheduled workflow refreshes the SVG images every six hours. Private contributions depend on what GitHub exposes to the workflow token.</p>
+</details>
 
 ## Featured projects
 
