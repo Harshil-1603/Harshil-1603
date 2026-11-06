@@ -18,9 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Generate dashboard from GitHub contribution data
+      - name: Generate verified dashboard from GitHub contribution and pull request data
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PROFILE_STATS_TOKEN || secrets.GITHUB_TOKEN }}
           GH_LOGIN: Harshil-1603
         run: python3 .github/scripts/update_activity.py
       - name: Commit dashboard only when it changes
