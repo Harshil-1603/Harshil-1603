@@ -38,7 +38,7 @@
 </p>
 <p align="center">
   <strong>Backend &amp; databases</strong><br /><br />
-  <img src="https://skillicons.dev/icons?i=nodejs,express,fastapi,flask,postgres,mongodb,sqlite,prisma&amp;theme=dark" alt="Node.js, Express, FastAPI, Flask, PostgreSQL, MongoDB, SQLite, Prisma" height="44" />
+  <img src="https://skillicons.dev/icons?i=nodejs,express,fastapi,flask,postgres,mongodb,sqlite,prisma,redis,kafka&amp;theme=dark" alt="Node.js, Express, FastAPI, Flask, PostgreSQL, MongoDB, SQLite, Prisma, Redis, Apache Kafka" height="44" />
   <br /><sub>Socket.IO · WebSockets · SQLModel</sub>
 </p>
 <p align="center">
@@ -48,7 +48,7 @@
 </p>
 <p align="center">
   <strong>Tools &amp; systems</strong><br /><br />
-  <img src="https://skillicons.dev/icons?i=git,githubactions,docker,linux,ubuntu,cmake&amp;theme=dark" alt="Git, GitHub Actions, Docker, Linux, Ubuntu, CMake" height="44" />
+  <img src="https://skillicons.dev/icons?i=git,githubactions,docker,kubernetes,linux,ubuntu,cmake&amp;theme=dark" alt="Git, GitHub Actions, Docker, Kubernetes, Linux, Ubuntu, CMake" height="44" />
 </p>
 
 ## GitHub activity
