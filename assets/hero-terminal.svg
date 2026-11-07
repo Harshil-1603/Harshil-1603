@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-label="Harshil Agrawal — Every rabbit hole has a README.">
+<rect x="0" y="0" width="1280" height="360" rx="0" fill="#0d1117" stroke="none" />
+<rect x="1" y="1" width="1278" height="358" rx="18" fill="#0c1010" stroke="#303a31" />
+<circle cx="40" cy="31" r="4" fill="#687267" stroke="none" stroke-width="1" />
+<circle cx="61" cy="31" r="4" fill="#89967e" stroke="none" stroke-width="1" />
+<circle cx="82" cy="31" r="4" fill="#c3ed85" stroke="none" stroke-width="1" />
+<text x="1228" y="36" fill="#aab4c0" font-family="DejaVu Sans Mono, monospace" font-size="14" font-weight="400" text-anchor="end">harshil@iitj:~</text>
+<polyline points="24,56 1255,56" fill="none" stroke="#273329" stroke-width="1" stroke-linejoin="round" />
+<text x="40" y="101" fill="#c3ed85" font-family="DejaVu Sans Mono, monospace" font-size="18" font-weight="400" text-anchor="start">$ whoami</text>
+<text x="38" y="166" fill="#f5f7fa" font-family="DejaVu Sans Mono, monospace" font-size="54" font-weight="700" text-anchor="start">HARSHIL AGRAWAL</text>
+<text x="40" y="224" fill="#f5f7fa" font-family="DejaVu Sans Mono, monospace" font-size="27" font-weight="400" text-anchor="start">Every rabbit hole has a README.</text>
+<polyline points="40,282 809,282" fill="none" stroke="#273329" stroke-width="1" stroke-linejoin="round" />
+<text x="40" y="324" fill="#aab4c0" font-family="DejaVu Sans Mono, monospace" font-size="15" font-weight="400" text-anchor="start">SOFTWARE / SYSTEMS / OPEN SOURCE</text>
+<rect x="867" y="87" width="362" height="241" rx="12" fill="#131b14" stroke="#2c3d2d" />
+<text x="889" y="123" fill="#c3ed85" font-family="DejaVu Sans Mono, monospace" font-size="16" font-weight="400" text-anchor="start">$ cat README.md</text>
+<text x="889" y="166" fill="#f5f7fa" font-family="DejaVu Sans Mono, monospace" font-size="17" font-weight="400" text-anchor="start"># the rabbit hole</text>
+<text x="889" y="203" fill="#f5f7fa" font-family="DejaVu Sans Mono, monospace" font-size="18" font-weight="400" text-anchor="start">systems/</text>
+<text x="889" y="233" fill="#f5f7fa" font-family="DejaVu Sans Mono, monospace" font-size="18" font-weight="400" text-anchor="start">databases/</text>
+<text x="889" y="263" fill="#f5f7fa" font-family="DejaVu Sans Mono, monospace" font-size="18" font-weight="400" text-anchor="start">algorithms/</text>
+<text x="889" y="305" fill="#c3ed85" font-family="DejaVu Sans Mono, monospace" font-size="17" font-weight="400" text-anchor="start">$</text>
+<rect x="911" y="288" width="10" height="20" rx="1" fill="#c3ed85" stroke="none" />
+</svg>

@@ -1,14 +1,13 @@
 <p align="center">
   <picture>
-    <source media="(prefers-reduced-motion: reduce)" srcset="./assets/hero.svg?v=2" />
-    <img src="./assets/hero.gif" width="100%" alt="Harshil Agrawal — software, systems, open source. Build it. Understand it. Make it better." />
+    <source media="(prefers-reduced-motion: reduce)" srcset="./assets/hero-terminal.svg" />
+    <img src="./assets/hero-terminal.gif" width="100%" alt="Harshil Agrawal — Every rabbit hole has a README." />
   </picture>
 </p>
 
 <p align="center">
-  <strong>Computer Science undergraduate at IIT Jodhpur · B.Tech 2024–2028</strong><br />
-  Building full-stack products, distributed systems, and performance-focused software.<br />
-  Interested in databases, operating systems, algorithms, reinforcement learning, and open source.
+  <strong>Computer Science @ IIT Jodhpur · B.Tech 2024–2028</strong><br />
+  Exploring systems, databases, and the details that make software work.
 </p>
 
 <p align="center">
