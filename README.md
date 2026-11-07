@@ -55,7 +55,7 @@
 
 <p align="center">
   <a href="https://github.com/Harshil-1603?tab=overview">
-    <img src="./assets/contribution-dashboard.svg?v=2" width="100%" alt="GitHub overview: contributions, commits, pull requests, merged PRs, issues, public repositories, received stars, streaks, and daily contribution calendar" />
+    <img src="./assets/contribution-dashboard.svg?v=3" width="100%" alt="GitHub overview: contributions, commits, pull requests, merged PRs, issues, public repositories, received stars, streaks, and daily contribution calendar" />
   </a>
 </p>
 
