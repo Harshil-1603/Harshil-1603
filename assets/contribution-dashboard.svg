@@ -23,7 +23,7 @@
 <text x="809" y="184" font-size="40" font-weight="700" letter-spacing="-1" fill="#ffffff">125</text>
 <text x="809" y="215" font-size="12" fill="#a5b1bf">All-time visible</text>
 <text x="32" y="271" font-size="13" fill="#a5b1bf">Open PRs</text>
-<text x="32" y="302" font-size="25" font-weight="700" fill="#ffffff">46</text>
+<text x="32" y="302" font-size="25" font-weight="700" fill="#ffffff">45</text>
 <path d="M185 258v47" stroke="#30363d"/>
 <text x="201" y="271" font-size="13" fill="#a5b1bf">Public repos</text>
 <text x="201" y="302" font-size="25" font-weight="700" fill="#ffffff">56</text>
@@ -438,5 +438,5 @@
 <text x="987" y="554" font-size="12" fill="#a5b1bf">More</text>
 <path d="M32 574h996" stroke="#30363d"/>
 <text x="32" y="598" font-size="11" fill="#a5b1bf">GitHub API · Visible to the workflow token · Streaks within past year</text>
-<text x="1028" y="598" text-anchor="end" font-size="11" fill="#a5b1bf">Updated 26 Nov 2026 · 08:24 UTC</text>
+<text x="1028" y="598" text-anchor="end" font-size="11" fill="#a5b1bf">Updated 26 Nov 2026 · 21:36 UTC</text>
 </svg>
